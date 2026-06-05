@@ -21,11 +21,10 @@ int main(void)
     if (command == "START" || command == "start" || command == "Start")
     {
         // Создаем сущности для первой локации
-        Character bobic("Start_Location", START_X, START_Y);
+        Inventory my_inventory;
+        Character bobic("Start_Location", START_X, START_Y, command);
         Door door1("Start_Location");
-        Chests chest1("Start_Location", door1.Door_x, door1.Door_y, 
-            bobic.Character_x, bobic.Character_y, command);
-        
+        Chests chest1(door1.Door_y, door1.Door_x);
 
         cout << "\t=== КАРТА ===\n";
         cout << "-------НАЧАЛЬНАЯ ЛОКАЦИЯ-------\n";
@@ -33,8 +32,8 @@ int main(void)
         
         // Создаем сущность первой локации и саму локацию
         Location StartLocation;
-        StartLocation.printForm(bobic.Character_x, bobic.Character_y, 
-            chest1.Chests_x, chest1.Chests_y, door1.Door_x, door1.Door_y);
+        StartLocation.printForm(bobic.Character_y, bobic.Character_x, 
+            chest1.Chests_y, chest1.Chests_x, door1.Door_x, door1.Door_y);
 
         while(command != "STOP" && bobic.Character_live != 0)
         {
@@ -44,31 +43,35 @@ int main(void)
             if (command == "Up" || command == "UP" || command == "up")
             {
                 bobic.MoveUp(1);
-                StartLocation.printForm(bobic.Character_x, bobic.Character_y, 
-                    chest1.Chests_x, chest1.Chests_y, door1.Door_x, door1.Door_y);
             }
 
             if (command == "Down" || command == "DOWN" || command == "down")
             {
                 bobic.MoveDown(1);
-                StartLocation.printForm(bobic.Character_x, bobic.Character_y,
-                    chest1.Chests_x, chest1.Chests_y, door1.Door_x, door1.Door_y);
             }
 
             if (command == "Left" || command == "LEFT" || command == "left")
             {
                 bobic.MoveLeft(1);
-                StartLocation.printForm(bobic.Character_x, bobic.Character_y, 
-                    chest1.Chests_x, chest1.Chests_y, door1.Door_x, door1.Door_y);
             }
             
             if (command == "Right" || command == "RIGHT" || command == "right")
             {
                 bobic.MoveRight(1);
-                StartLocation.printForm(bobic.Character_x, bobic.Character_y, 
-                    chest1.Chests_x, chest1.Chests_y, door1.Door_x, door1.Door_y);
             }
 
+            if (command == "INVENTORY" || command == "inventory" || command == "Inventory" 
+                || command == "INV" || command == "Inv" || command == "inv")
+            {
+                my_inventory.check_inventory();
+                continue;
+            }
+
+            // Проверяем, наступил ли игрок на сундук
+            chest1.check_Collision(bobic.Character_x, bobic.Character_y, command, my_inventory);
+            // Перерисовываем карту с учетом новых (или отброшенных сундуком) координат
+            StartLocation.printForm(bobic.Character_y, bobic.Character_x, 
+                chest1.Chests_y, chest1.Chests_x, door1.Door_x, door1.Door_y);
         }
     }
 

@@ -4,18 +4,24 @@
 #include "Character.h"
 #include "Location.h"
 #include "Chests.h"
+#include "Potions.h"
 
 using namespace std;
 
-Character::Character(string My_Location, int start_x,int start_y) 
+Character::Character(string My_Location, int start_x,int start_y, 
+    string command) 
 {
     location = My_Location;
     Character_x = start_x;  
     Character_y = start_y;
     health = 100;
     Character_live = 1;
+    vector <Potions> inventory = {};
+
     if (health <= 0 )
         Character_live = 0;
+    if (health >= 100)
+        health = 100;
 }
 
 void Character::MoveUp(int steps)

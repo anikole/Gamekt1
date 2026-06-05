@@ -20,7 +20,7 @@ void Location::printForm(int Character_x, int Character_y,
                         Form[i][j] = "#";
                     else if (j == 0 || j == 11)
                         Form[i][j] = "#";
-                    else if (i == Character_y && j == Character_x)
+                    else if (i == Character_x && j == Character_y)
                         Form[i][j] = "@";
                     else if ( i == Chests_x && j == Chests_y)
                         Form[i][j] = "C";

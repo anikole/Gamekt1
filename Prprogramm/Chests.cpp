@@ -1,19 +1,25 @@
 #include <iostream>
 #include <random>
+#include <vector>
 
+#include "Chests.h"
 #include "Location.h"
 #include "Character.h"
-#include "Chests.h"
 #include "Door.h"
+#include "Potions.h"
+#include "Inventory.h"
 
 using namespace std;
 
-Chests::Chests(string My_Location, int Door_x, int Door_y, 
-    int Character_x, int Character_y, string command)
+Chests::Chests(int Door_x, int Door_y)
 {
-    // Генератор рандомнвх чисел
+    // Генератор рандомных чисел
     static random_device rd;
     static mt19937 gen(rd());
+
+    // Генерируем ID сундука
+    uniform_int_distribution<> distr_x(1, 100);
+    Chests_ID = distr_x(gen);
 
     // Создаем генератор монетки(50\50)
     uniform_int_distribution<> coin(0, 1);
@@ -40,28 +46,42 @@ Chests::Chests(string My_Location, int Door_x, int Door_y,
     в случае совпадения координат сундука с координатами двери*/
     if (Chests_x == Door_x || Chests_y == Door_y)
     {   
-        uniform_int_distribution<> distr_y(1, Door_x);
-        Chests_y = distr_y(gen);
+        uniform_int_distribution<> distr_door_x(1, Door_x);
+        Chests_y = distr_door_x(gen);
 
-        uniform_int_distribution<> distr_y(1, Door_y);
-        Chests_y = distr_y(gen);
+        uniform_int_distribution<> distr_door_y(1, Door_y);
+        Chests_y = distr_door_y(gen);
     }
+}
 
-    /*Нахождение сундука*/
-    // if(Chests_x == Character_x || Chests_y == Character_y )
-    // {
-    //     Character_x --;
-    //     Character_y --;
-    //     cout << "Вы нашли сундук! \nХотите его открыть ?\nY/N";
-    //     cin >> command;
 
-    //     if(command == "Y" || command == "YES" || command == "yes" || command == "Yes")
-    //     {
+void Chests::check_Collision(int Character_x, int Character_y, 
+        std::string& command, Inventory& player_inventory)
+{
+    static random_device rd;
+    static mt19937 gen(rd());
+    uniform_int_distribution<> coin(0, 1);
 
-    //     }
-    //     else if(command == "N" || command == "NO" || command == "no" || command == "No")
-    //     {
-            
-    //     }
-    // }
+    if(Chests_x == Character_x && Chests_y == Character_y)
+    {
+        cout << "\nВы нашли сундук! \nХотите его открыть? (Y/N): ";
+        cin >> command;
+
+        if(command == "Y" || command == "YES" || command == "yes" || command == "Yes")
+        {
+            if (coin(gen) == 0) 
+                cout << "Похоже, этот сундук пуст... \n"; 
+            else 
+            {
+                Potions found_potion; 
+                player_inventory.add_potion(found_potion); 
+
+                cout << "Вы нашли '" << found_potion.Potion_Name << "' (Лечит: " 
+                     << found_potion.health_add << ") и положили в инвентарь!\n";
+            }
+        }
+        else if(command == "N" || command == "NO" || command == "no" || command == "No") {
+            cout << "Вы решили пройти мимо сундука.\n";
+        }
+    }
 }
