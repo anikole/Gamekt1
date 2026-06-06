@@ -31,3 +31,17 @@ void Inventory::check_inventory()
     }
     std::cout << "=====================\n" << std::endl;
 }
+void Inventory::use_potion(int index, Character& bobic )
+{
+    for (int i = 0; i < items.size(); i++) 
+        {
+            if(items[i].Potions_ID == index - 1)
+            {
+                bobic.Character_health += items[index].health_add;
+                cout << "Вы восстановили здоровье на " << items[i].health_add 
+                << "\n Ваше текущее здоровье : " << bobic.Character_health << "\n";
+
+                bobic.Character_health += items[index].health_add;
+            }
+        }
+}

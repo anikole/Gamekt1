@@ -7,10 +7,11 @@ class Potions
 {
 public:
     Potions();
-    Potions(int Potions_ID, int health_add, std::string Potion_Name);
     int Potions_ID;
     int health_add;
     std::string Potion_Name;
+
+    Potions(int Potions_ID, int health_add, std::string Potion_Name);
 
 private:
 

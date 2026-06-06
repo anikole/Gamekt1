@@ -6,6 +6,8 @@
 
 #include "Potions.h"
 
+class Character;
+
 class Inventory
 {
 public:
@@ -14,6 +16,7 @@ public:
 
     void add_potion(const Potions& potion);
     void check_inventory();
+    void use_potion(int index, Character& bobic);
 };
 
 #endif

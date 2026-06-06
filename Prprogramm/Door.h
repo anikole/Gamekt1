@@ -5,6 +5,7 @@
 
 #include "Location.h"
 #include "Chests.h"
+#include "BrainBreaker.h"
 
 class Door
 {

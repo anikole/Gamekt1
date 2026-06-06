@@ -13,7 +13,7 @@ public:
         std::string command);
 
     bool Character_live;
-    int health;
+    int Character_health;
     std::string location;
     int Character_x;
     int Character_y;

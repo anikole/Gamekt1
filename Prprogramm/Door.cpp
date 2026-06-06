@@ -5,6 +5,7 @@
 #include "Character.h"
 #include "Chests.h"
 #include "Door.h"
+#include "BrainBreaker.h"
 
 using namespace std;
 
