@@ -41,13 +41,3 @@ void Location::printForm(int Character_x, int Character_y,
         }
     }
 }
-
-// void Location::Change_Location(int Character_x, int Character_y, 
-//     int Chests_x, int Chests_y, int Door_x, int Door_y, string command)
-// {
-//     if(Door_x == Character_x || Door_y == Character_y)
-//     {
-//         cout << "Хотите перейти в следущую локацию?\nY/N";
-//         cin >> command;
-//     }
-// }

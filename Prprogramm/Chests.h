@@ -14,7 +14,7 @@ public:
     Chests(int Door_x, int Door_y);
 
     void check_Collision(Character& player, 
-        std::string& command, Inventory& player_inventory);
+        std::string& command, Inventory& player_inventory, int location_count);
 
     std::vector <Potions> Chests_reward = {};
     int Chests_x;

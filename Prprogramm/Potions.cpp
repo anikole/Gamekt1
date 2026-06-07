@@ -35,11 +35,4 @@ Potions::Potions()
 
     // Присваиваем случайное имя из списка
     Potion_Name = names_pool[random_index];
-
-}
-Potions::Potions(int Potion_id, int health_add, string Potion_name)
-{
-    Potions_ID = Potion_id;
-    health_add = health_add;
-    Potion_Name = Potion_name;
 }

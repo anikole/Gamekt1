@@ -9,7 +9,7 @@
 class Character
 {
 public:
-    Character(std::string Location, int start_x,int start_y, 
+    Character( int start_x,int start_y, 
         std::string command);
 
     bool Character_live;
@@ -25,7 +25,6 @@ public:
     void MoveLeft(int steps);
 
 private:
-    // int damage;
     
     
 };

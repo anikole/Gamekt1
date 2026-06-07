@@ -29,19 +29,19 @@ Chests::Chests(int Door_x, int Door_y)
 
     // Генерируем х в отрезках : 1-3 и 5-6 
     if (coin(gen) == 0) {
-        uniform_int_distribution<> distr_x(1, 3);
+        uniform_int_distribution<> distr_x(1, 5);
         Chests_x = distr_x(gen);
     } else {
-        uniform_int_distribution<> distr_x(5, 6);
+        uniform_int_distribution<> distr_x(7, 10);
         Chests_x = distr_x(gen);
     }
 
     // Генерируем у в отрезках : 1-3 и 5-6
     if (coin(gen) == 0) {
-        uniform_int_distribution<> distr_y(1, 5);
+        uniform_int_distribution<> distr_y(1, 3);
         Chests_y = distr_y(gen);
     } else {
-        uniform_int_distribution<> distr_y(7, 10);
+        uniform_int_distribution<> distr_y(5, 6);
         Chests_y = distr_y(gen);
     }
 
@@ -59,7 +59,7 @@ Chests::Chests(int Door_x, int Door_y)
 
 
 void Chests::check_Collision(Character& player, 
-    string& command, Inventory& player_inventory)
+    string& command, Inventory& player_inventory, int location_count)
 {
     static random_device rd;
     static mt19937 gen(rd());
@@ -70,20 +70,51 @@ void Chests::check_Collision(Character& player,
         cout << "\nВы нашли сундук! \nХотите его открыть? (Y/N): ";
         cin >> command;
 
-        if(is_open)
+        if (have_treasures)
         {
-            if (have_treasures)
+            cout << "\nПохоже, что кто-то уже забрал награду.\n";
+            return;
+        }
+
+        if(command == "Y" || command == "YES" || command == "yes" || command == "Yes")
+        {
+            bool can_take_reward = false;
+
+            if(is_open)
+                can_take_reward = true;
+            else
             {
-                cout << "\nПохоже, что кто-то уже забрал награду.\n";
-                return;
+                cout << "\n Замок не поддается, с сундуком что-то не так. \n";
+                BrainBreaker puzzle;
+                if (puzzle.start_bb_for_chests(player) == true) 
+                {
+                    can_take_reward = true;
+                    is_open = true; 
+                }
             }
 
-            if(command == "Y" || command == "YES" || command == "yes" || command == "Yes")
+            if (can_take_reward)
             {
                 have_treasures = true;
+
+                if (location_count == 5)
+                {
+                    Potions last_treasure;
+                    last_treasure.Potions_ID = 999;
+                    last_treasure.health_add = 0; 
+                    last_treasure.Potion_Name = " ∼ Кубок победителя ∼ ";
+                    last_treasure.treasure = true;
+                    player_inventory.add_potion(last_treasure);
                 
-                if (coin(gen) == 0) 
+                    cout << "\n=============================================";
+                    cout << "\n[ПОБЕДА] Вы открыли финальный сундук!";
+                    cout << "\nВы нашли легендарный артефакт: " << last_treasure.Potion_Name;
+                    cout << "\n=============================================\n";
+                }
+                else if (coin(gen) == 0) 
+                {
                     cout << "Похоже, этот сундук пуст... \n"; 
+                }
                 else 
                 {
                     Potions found_potion; 
@@ -93,24 +124,11 @@ void Chests::check_Collision(Character& player,
                         << found_potion.health_add << ") и положили в инвентарь!\n";
                 }
             }
-        
-            else if(command == "N" || command == "NO" || command == "no" || command == "No") 
-                cout << "Вы решили пройти мимо сундука.\n";
         }
-        else
+        else if(command == "N" || command == "NO" || command == "no" || command == "No") 
         {
-            cout << "\n Замок не поддается, с сундуком что-то не так. \n";
-            BrainBreaker puzzle;
-
-            // Запускаем головолмку. Если игрок ответил правильно, даем награду
-            if (puzzle.start_bb(player) == true) 
-            {
-                Potions found_potion; 
-                player_inventory.add_potion(found_potion); 
-
-                cout << "\nВы забрали награду: '" << found_potion.Potion_Name 
-                    << "' (Лечит: " << found_potion.health_add << ") добавлено в инвентарь!\n";
-            }
+            cout << "Вы решили пройти мимо сундука.\n";
         }
-    } 
+    }
+
 }

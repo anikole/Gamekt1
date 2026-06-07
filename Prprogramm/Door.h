@@ -10,10 +10,14 @@
 class Door
 {
 public:
-    Door(std::string My_Location);
+    Door(int location_count);
 
+    int location_count;
     int Door_x;
     int Door_y;
+    bool door_is_open;
+
+    bool check_collision_door(Character& player, std::string& command);
 };
 
 #endif

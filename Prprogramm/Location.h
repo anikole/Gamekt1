@@ -13,8 +13,5 @@ public:
     void printForm(int Character_x, int Character_y,
         int Chests_x, int Chests_y, int Door_x, int Door_y);
 
-    // void Change_Location(int Character_x, int Character_y, 
-    //     int Chests_x, int Chests_y, int Door_x, int Door_y, 
-    //     std::string command);
 };
 #endif

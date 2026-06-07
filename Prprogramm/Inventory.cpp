@@ -31,17 +31,27 @@ void Inventory::check_inventory()
     }
     std::cout << "=====================\n" << std::endl;
 }
-void Inventory::use_potion(int index, Character& bobic )
+void Inventory::use_potion(int choice, Character& bobic )
 {
-    for (int i = 0; i < items.size(); i++) 
-        {
-            if(items[i].Potions_ID == index - 1)
-            {
-                bobic.Character_health += items[index].health_add;
-                cout << "Вы восстановили здоровье на " << items[i].health_add 
-                << "\n Ваше текущее здоровье : " << bobic.Character_health << "\n";
+    int target_index = choice - 1;
+    if (target_index >= 0 && target_index < items.size())
+    {
+        // Восстанавливаем здоровье
+        bobic.Character_health += items[target_index].health_add;
 
-                bobic.Character_health += items[index].health_add;
-            }
-        }
+        if(bobic.Character_health >= 100)
+            bobic.Character_health = 100;
+        
+        cout << "\nВы выпили зелье и восстановили здоровье на " << items[target_index].health_add << " единиц.\n";
+        cout << "Ваше текущее здоровье: " << bobic.Character_health << "\n";
+
+        // Удаляем использованное зелье из инвентаря, чтобы его нельзя было выпить бесконечно
+        items.erase(items.begin() + target_index);
+    }
+    else if (items[target_index].treasure == true) {
+        cout << "\nЭтот предмет нельзя использовать, это ваш победный трофей!\n";
+        return;
+    }
+    else
+        cout << "\nЗелья под таким номером не существует в вашем инвентаре!\n";
 }

@@ -10,8 +10,7 @@ public:
     int Potions_ID;
     int health_add;
     std::string Potion_Name;
-
-    Potions(int Potions_ID, int health_add, std::string Potion_Name);
+    bool treasure = false;
 
 private:
 
