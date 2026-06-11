@@ -22,7 +22,7 @@ void Inventory::check_inventory()
     if (items.empty()) {
         std::cout << "Ваша сумка пуста..." << std::endl;
     } else {
-        for (int i = 0; i < items.size(); i++) 
+        for (size_t i = 0; i < items.size(); i++) 
         {
             std::cout << i + 1 << ". " << items[i].Potion_Name 
                       << " [ID: " << items[i].Potions_ID 
@@ -34,7 +34,7 @@ void Inventory::check_inventory()
 void Inventory::use_potion(int choice, Character& bobic )
 {
     int target_index = choice - 1;
-    if (target_index >= 0 && target_index < items.size())
+    if (target_index >= 0 && target_index < static_cast<int>(items.size()))
     {
         // Восстанавливаем здоровье
         bobic.Character_health += items[target_index].health_add;
